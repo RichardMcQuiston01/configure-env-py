@@ -6,7 +6,7 @@ conventions, and commands. Keep it up to date as the project evolves.
 ## Overview
 
 `configure-env-py` is a CLI Python package, published to PyPI as
-`configure-env-py` (installed console command: `configure-env`), that turns a
+`configure-env` (installed console command: `configure-env`), that turns a
 project's `.env.example` template into an interactive wizard for creating or
 updating the matching `.env` file.
 
@@ -48,10 +48,36 @@ mypy src
 # Run locally without installing
 python -m configure_env [directory]
 
-# Build + publish (manual, until CI is set up)
+# Build locally (sanity check before tagging a release)
 python -m build
-twine upload dist/*              # add --repository testpypi to test first
+twine check dist/*
 ```
+
+## Publishing
+
+Publishing is automated via GitHub Actions Trusted Publishing (OIDC — no
+stored API token) in `.github/workflows/workflow.yml`. The workflow filename
+must stay exactly `workflow.yml` — it's the value registered in the pending
+publisher config on both pypi.org and test.pypi.org, and Trusted Publishing
+matches on owner/repo/workflow filename (and environment, left blank on both).
+
+Three-branch model:
+
+- `dev` — working branch, unpublished. Push here freely; nothing in the
+  workflow triggers off it.
+- `staging` — push here to publish to **TestPyPI** as project `configure-env`,
+  for validating packaging/install before promoting to `main`.
+- `main` — push here to publish to **real PyPI** as project `configure-env`.
+
+All jobs run `test → build`, then branch by which branch was pushed to. There
+is no version gate on either publish path — every push to `staging` or
+`main` must have a bumped version (see below) or the publish step fails
+outright (PyPI/TestPyPI reject re-uploading an existing version; they do not
+silently overwrite).
+
+Typical flow: merge `dev` → `staging` (bump version if not already bumped),
+confirm the TestPyPI publish and install work, then merge `staging` → `main`
+to publish for real.
 
 ## Design notes
 

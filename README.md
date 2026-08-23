@@ -31,7 +31,7 @@ an interactive wizard to create or update the matching `.env` file:
 From PyPI (once published):
 
 ```bash
-pip install configure-env-py
+pip install configure-env
 ```
 
 From GitHub, before the first PyPI release:
