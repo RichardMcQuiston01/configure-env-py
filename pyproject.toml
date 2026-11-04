@@ -28,6 +28,7 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/RichardMcQuiston01/configure-env-py"
 Issues = "https://github.com/RichardMcQuiston01/configure-env-py/issues"
+Funding = "https://ko-fi.com/P1V529Z7ZP"
 
 [project.scripts]
 configure-env = "configure_env.cli:main"
