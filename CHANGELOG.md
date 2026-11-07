@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [Unreleased]
+
+### Changed
+
+- Donations now point at Ko-fi instead of Stripe: the README badge, a `Funding` project URL and a new `.github/FUNDING.yml`. The Stripe QR image is removed.
+
 ## [0.1.0] - 2026-08-23
 
 ### Added
